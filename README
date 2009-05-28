@@ -1,0 +1,47 @@
+DefaultXmlOptions
+============
+
+Allows you to set default to_xml options on your ActiveRecord model
+so you do not have to include them every time you call to_xml.
+
+
+Example
+=======
+
+class Download < ActiveRecord::Base
+  
+  default_xml_options :include => [:items, author]
+  
+end
+
+class DownloadController < ApplicationController
+  
+  def show
+    @download = current_user.downloads.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.xml { 
+        render :xml => @download.to_xml 
+        # Which is the same as
+        #render :xml => @download.to_xml(:include => [:items, :author])
+      } 
+    end
+  end
+end
+
+You can also override the defaults you have specified in default_xml_options by
+passing the options directly to to_xml.
+
+# Adding a new option
+render :xml => @download.to_xml(:skip_instruct => true)
+# The same as
+render :xml => @download.to_xml(:skip_instruct => true, :include => [:items, :author])
+
+# Overriding a default
+render :xml => @download.to_xml(:include => [:author])
+
+If you want to ignore the defaults completely pass :ignore_defaults => true as an option
+render :xml => @download.to_xml(:ignore_defaults => true, :include => [:items])
+
+
+Copyright (c) 2009 James Smith, released under the MIT license
