@@ -10,7 +10,7 @@ Example
 
 class Download < ActiveRecord::Base
   
-  default_xml_options :include => [:items, author]
+  default_xml_options :include => [:items, :author]
   
 end
 
