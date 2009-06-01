@@ -19,5 +19,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'default_serialize_options'
-ActiveRecord::Base.send :include, DefaultSerializeOptions
+module DefaultSerializeOptions
+  def self.included(base)
+    base.send :extend, ClassMethods
+  end
+end
+
+module ClassMethods
+  def default_serialize_options options = {}
+    cattr_accessor :to_xml_opts, :to_json_opts
+    self.to_json_opts = options[:json] || options[:all]
+    self.to_xml_opts  = options[:xml]  || options[:all]
+    send :include, InstanceMethods
+  end
+end
+
+module InstanceMethods
+  def serialize_options type, options
+    default_opts = (type == :xml) ? self.class.to_xml_opts : self.class.to_json_opts
+    (options[:ignore_defaults]) ? options : default_opts.dup.update(options)
+  end
+    
+  def to_xml options = {}
+    super serialize_options(:xml, options)
+  end
+  
+  def to_json options = {}
+    super serialize_options(:json, options)
+  end
+  
+end

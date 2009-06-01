@@ -4,13 +4,26 @@ DefaultXmlOptions
 Allows you to set default to_xml options on your ActiveRecord model
 so you do not have to include them every time you call to_xml.
 
+Options
+=======
+
+Default options to use for to_xml:
+default_serialize_options :xml => { :include => [:items] }
+
+Default options for use for to_json:
+default_serialize_options :json => { :include => [:items] }
+
+Default options for both to_xml and to_json:
+default_serialize_options :all => { :include => [:items] }
+
 
 Example
 =======
 
 class Download < ActiveRecord::Base
   
-  default_xml_options :include => [:items, :author]
+  default_serialize_options :xml => { :include => [:items, :author] },
+                            :json => { :include => [:author] }
   
 end
 
