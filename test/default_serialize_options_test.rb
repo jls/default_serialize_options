@@ -2,8 +2,7 @@ require 'test/unit'
 require 'test/lib/active_record_test_helper'
 require 'test_helper'
 
-require 'default_serialize_options'
-ActiveRecord::Base.send :include, DefaultSerializeOptions
+require 'init'
 class DefaultSerializeOptionsTest < ActiveRecordTestHelper
   
   def setup
