@@ -37,7 +37,7 @@ end
 module InstanceMethods
   def serialize_options type, options
     default_opts = (type == :xml) ? self.class.to_xml_opts : self.class.to_json_opts
-    (options[:ignore_defaults]) ? options : default_opts.dup.update(options)
+    (options[:ignore_defaults] || default_opts.nil?) ? options : default_opts.dup.update(options)
   end
     
   def to_xml options = {}
