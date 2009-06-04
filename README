@@ -1,5 +1,5 @@
 DefaultSerializeOptions
-============
+=======================
 
 Allows you to set default to_xml and to_json options on your ActiveRecord model
 so you do not have to include them every time you call to_xml or to_json.
