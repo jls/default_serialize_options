@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :default_to_xml do
+# task :default_serialize_options do
 #   # Task goes here
 # end
