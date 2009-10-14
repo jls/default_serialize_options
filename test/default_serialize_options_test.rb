@@ -9,6 +9,7 @@ class DefaultSerializeOptionsTest < ActiveRecordTestHelper
     Fixtures.create_fixtures(FIXTURES_PTH, 'books')
     Fixtures.create_fixtures(FIXTURES_PTH, 'authors')
     Fixtures.create_fixtures(FIXTURES_PTH, 'categories')
+    Fixtures.create_fixtures(FIXTURES_PTH, 'publishers')
   end
 
   # Book => xml: => :skip_instruct => true
@@ -17,6 +18,10 @@ class DefaultSerializeOptionsTest < ActiveRecordTestHelper
 
   def first_book
     Book.find(:first)
+  end
+
+  def first_publisher
+    Publisher.find(:first)
   end
 
   def instruct
@@ -38,7 +43,15 @@ class DefaultSerializeOptionsTest < ActiveRecordTestHelper
   end
   
   def author_default_json
-    "{\"id\": 1, \"first_name\": \"J.K.\", \"last_name\": \"Rowling\"}"
+    "{\"id\": 1, \"last_name\": \"Rowling\", \"first_name\": \"J.K.\"}"
+  end
+  
+  def publisher_default_json
+    "{\"id\": 1, \"full_name\": \"Scholo\"}"
+  end
+  
+  def publisher_default_xml
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<publisher>\n  <full_name>Scholo</full_name>\n  <id type=\"integer\">1</id>\n</publisher>\n"
   end
   
   def test_obey_default_serialize_options
@@ -62,5 +75,9 @@ class DefaultSerializeOptionsTest < ActiveRecordTestHelper
     assert_equal author_default_json, first_book.author.to_json, "option[:all] Did not set to_json"
   end
   
+  def test_no_top_level_key_matches_all
+    assert_equal publisher_default_xml, first_publisher.to_xml, "options[:all] was not set when no key was passed."
+    assert_equal publisher_default_json, first_publisher.to_json, "options[:all] was not set when no key was passed."
+  end
   
 end

@@ -28,9 +28,13 @@ end
 module ClassMethods
   def default_serialize_options options = {}
     cattr_accessor :to_xml_opts, :to_json_opts
-    self.to_json_opts = options[:json] || options[:all]
-    self.to_xml_opts  = options[:xml]  || options[:all]
+    opts = (has_serialize_options_key?(options)) ? options : {:all => options}
+    self.to_json_opts = opts[:json] || opts[:all]
+    self.to_xml_opts  = opts[:xml]  || opts[:all]
     send :include, InstanceMethods
+  end
+  def has_serialize_options_key? options 
+    (options.has_key?(:json) || options.has_key?(:xml) || options.has_key?(:all))
   end
 end
 

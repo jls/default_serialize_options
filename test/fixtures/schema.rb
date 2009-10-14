@@ -15,4 +15,9 @@ ActiveRecord::Schema.define do
     t.string  "name"
     t.integer "id"
   end
+  
+  create_table "publishers", :force => true do |t|
+    t.string "full_name"
+    t.integer "id"
+  end
 end

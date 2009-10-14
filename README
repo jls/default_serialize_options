@@ -16,6 +16,9 @@ default_serialize_options :json => { :include => [:items] }
 Default options for both to_xml and to_json:
 default_serialize_options :all => { :include => [:items] }
 
+If the keys :xml, :json or :all do not exist in the options the key :all is assumed. 
+Which means
+default_serialize_options :include => [:items] *is the same as* default_serialize_options :all => {:include => [:items]}
 
 Example
 =======
